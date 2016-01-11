@@ -1,0 +1,11 @@
+{
+  "name": "NIWANews",
+  "version": "0.0.1",
+  "authors": [
+    "SDT"
+  ],
+  "dependencies": {
+    "promise-polyfill": "~3.0.0",
+    "angular": "1.5.0-rc.0"
+  }
+}
