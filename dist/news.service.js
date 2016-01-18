@@ -1,54 +1,69 @@
 news
-    .service('newsService', ['$http', 'newsModelService', function ($http, newsModelService) {
-
+    .service('newsService', ['$http', '$q', 'newsModelService', function ($http, $q, newsModelService) {
         return {
-            getHeadlines: function () {
-                var promise = new Promise(function (resolve, reject) {
-                    $http({
-                        method: 'GET',
-                        url: newsModelService.get('headlinesUrl')
-                    }).then(function successCallback(response) {
+            getLatestNodeIds: function () {
 
-                        resolve(response.data.titles);
+                var deferred = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: newsModelService.get('headlinesUrl')
+                }).then(function successCallback(response) {
 
-                    }, function errorCallback(response) {
-                        reject(response);
-                    });
-                })
-                return promise;
+                    var nodelIstLength = response.data.titles.length;
+                    var nodeList = [];
+                    for (i = 0; i < nodelIstLength; i++) {
+                        nodeList.push(response.data.titles[i].nid)
+                    }
+                    deferred.resolve(nodeList);
+
+                }, function errorCallback(response) {
+
+                    return('http  error');
+                });
+                return deferred.promise;
             },
 
-            getNodes: function (headlines, callback) {
+            getNodes: function (ids) {
 
-                var promise = new Promise(function (resolve,reject) {
+                var compare = function (a, b) {
+                    return b.created - a.created;
+                }
+                var deferred = $q.defer();
 
-                    var howManyNodesToShow = headlines.length <= 10 ? headlines.length : 10;
-                    var counter = 1;
-                    for (i = 0; i < howManyNodesToShow; i++) {
-                        $http({
-                            method: 'GET',
-                            url: newsModelService.get('nodeUrl') + headlines[i].nid
+                var howManyNodesToShow = ids.length <= 10 ? ids.length : 10;
+                var counter = 1;
+                var nodes = [];
+                for (i = 0; i < howManyNodesToShow; i++) {
+                    $http({
+                        method: 'GET',
+                        url: newsModelService.get('nodeUrl') + ids[i]
 
-                        }).then(function successCallback(response) {
-                            node = {
+                    }).then(function successCallback(response) {
+                        node = {
+                            'nid': response.data.nid,
+                            'created': response.data.created,
+                            'title': response.data.title,
+                            'summary': response.data.body.und[0].summary,
+                            'value': response.data.body.und[0].value,
+                            'saveValue': response.data.body.und[0].safe_value,
+                            'format': response.data.body.und[0].format,
+                            'source': response.data.source,
+                            'nodeImage': newsModelService.get('imageBaseUrl') + response.data.field_forecast_article_image.und[0].filename
+                        }
+                        counter++;
+                        nodes.push(node);
+                        if (counter >= howManyNodesToShow) {
 
-                                'created': response.data.created,
-                                'title': response.data.title,
-                                'body': response.data.body,
-                                'source': response.data.source
-                            }
-                            counter++;
-                            callback(node);
-                            if (counter >= howManyNodesToShow) {
-                                resolve();
-                            }
-
-                        }, function errorCallback(response) {
-                            reject(response);
-                        })
-                    }
-                })
-                return promise;
+                            deferred.resolve(nodes.sort(compare));
+                        }
+                    }, function errorCallback(response) {
+                        return('http error');
+                    })
+                }
+                return deferred.promise;
             }
         }
     }])
+
+
+

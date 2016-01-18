@@ -1,31 +1,31 @@
-news.controller('newsController', ['$scope', 'newsService', 'newsModelService', function ($scope, newsService, newsModelService) {
+news.controller('newsController', ['$scope', 'newsService', function ($scope, newsService) {
 
     $scope.model = {
-        headlines: {},
+        headlineIds: [],
         nodeListRaw: [],
         nodeListSorted: []
     }
 
-    var updateNodeList = function (node) {
-        $scope.model.nodeListRaw.push(node);
-    }
-    var compare = function (a,b) {
-        return b.created - a.created;
-    }
-    $scope.getNodes = function (headlines) {
-        console.log('start');
-        newsService.getNodes(headlines,updateNodeList).then (function() {
-            console.log('done');
 
-            $scope.model.nodeListSorted = $scope.model.nodeListRaw.sort(compare);
-            console.log($scope.model.nodeListSorted);
-        });
-    }
+    $scope.$watch('model.headlineIds', function (ids, oldids) {
 
+        if ((typeof ids != 'undefined')&&(ids.length != 0)) {
+            newsService.getNodes(ids).then(function (nodes) {
+                $scope.model.nodeListSorted = nodes;
+            });
+        }
+    })
 
     $scope.getLatestNodes = function () {
-        newsService.getHeadlines().then(function (headlines) {
-            $scope.getNodes(headlines);
-    })
+
+        newsService.getLatestNodeIds().then(function (ids) {
+            $scope.model.headlineIds = ids;
+
+        },function(reason) {
+            $scope.model.nodeListSorted = false;
+        });
+
     }
+
+
 }])

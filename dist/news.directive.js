@@ -1,16 +1,22 @@
-console.log(news);
-news.directive('latestNews', [ function() {
-
+news.directive('latestNews', [function () {
     function link(scope, ele, attrs) {
-
         scope.getLatestNodes();
-
     }
-
     return {
         restrict: 'EA',
         link: link,
-        template: '<div class="panel"><div class="panel-heading"><h3>Latest news </div><div ng-repeat="node in model.nodeList" class="body">{{node}}</div></div></div>',
-        controller: 'newsController'
+        template: '<div id="niwaNews" class="panel panel-primary col-md-4">' +
+        '<div class="panel-heading">' +
+        '<h1 class="panel-title">Latest NIWA News </h1>' +
+        '</div>' +
+        '<div ng-repeat="node in model.nodeListSorted" class="body">' +
+        '<img width="100%" ng-show="$index==0" ng-src="{{node.nodeImage}}" />' +
+        '<h3>{{node.title}}</h3>' +
+        '<p>{{node.summary}}</p>' +
+        '</div>' +
+        '</div>' +
+        '</div></div>',
+        controller: 'newsController',
+        scope: false
     }
 }])
