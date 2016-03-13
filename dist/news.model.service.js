@@ -12,8 +12,8 @@ news
                 if (typeof params[key] != 'undefined') {
                     return params[key];
                 } else {
-                    return 'invalid parameter request'
+                    return 'invalid parameter request';
                 }
             }
-        }
-    }])
+        };
+    }]);

@@ -18,5 +18,5 @@ news.directive('latestNews', [function () {
         '</div></div>',
         controller: 'newsController',
         scope: false
-    }
-}])
+    };
+}]);

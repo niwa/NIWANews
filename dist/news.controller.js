@@ -4,17 +4,17 @@ news.controller('newsController', ['$scope', 'newsService', function ($scope, ne
         headlineIds: [],
         nodeListRaw: [],
         nodeListSorted: []
-    }
+    };
 
 
     $scope.$watch('model.headlineIds', function (ids, oldids) {
 
-        if ((typeof ids != 'undefined')&&(ids.length != 0)) {
+        if ((typeof ids != 'undefined')&&(ids.length !== 0)) {
             newsService.getNodes(ids).then(function (nodes) {
                 $scope.model.nodeListSorted = nodes;
             });
         }
-    })
+    });
 
     $scope.getLatestNodes = function () {
 
@@ -25,7 +25,8 @@ news.controller('newsController', ['$scope', 'newsService', function ($scope, ne
             $scope.model.nodeListSorted = false;
         });
 
-    }
+    };
 
 
-}])
+}]);
+

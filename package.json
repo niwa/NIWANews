@@ -1,6 +1,13 @@
 {
   "name": "NIWANews",
   "devDependencies": {
+    "grunt": "^0.4.5",
+    "http-server": "^0.6.1",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.15",
@@ -13,7 +20,20 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "phantomjs": "^1.9.19"
   },
+  "scripts": {
+    "postinstall": "bower install",
+    "prestart": "npm install",
+    "start": "http-server -a localhost -p 8000 -c-1 app",
+    "pretest": "npm install",
+    "test": "node_modules/karma/bin/karma start karma.conf.js",
+    "test-single-run": "karma start karma.conf.js  --single-run",
+    "preupdate-webdriver": "npm install",
+    "update-webdriver": "webdriver-manager update",
+    "preprotractor": "npm run update-webdriver",
+    "protractor": "protractor e2e-tests/protractor.conf.js"
+  },
   "dependencies": {
-    "bower": "^1.7.2"
+    "bower": "^1.7.2",
+    "grunt-contrib-concat": "^1.0.0"
   }
 }

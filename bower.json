@@ -6,13 +6,10 @@
   ],
   "dependencies": {
     "promise-polyfill": "~3.0.0",
-    "angular-mocks": "~1.4.8",
+    "angular-mocks": "~1.5.0",
     "moment": "~2.11.1",
     "jquery": "~2.2.0",
     "bootstrap": "~3.3.6"
-  },
-  "resolutions": {
-    "angular": "1.4.8"
   },
   "devDependencies": {
     "jasmine-es6-promise-matchers": "~2.0.1",
