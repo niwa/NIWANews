@@ -12,7 +12,7 @@ module.exports = function(grunt) {
           'dist/news.js',
           'dist/news.controller.js',
           'dist/news.directive.js',
-          'dist/new.model.service.js',
+          'dist/news.model.service.js',
           'dist/news.service.js'
         ],
         dest: '<%= pkg.name %>.js'
