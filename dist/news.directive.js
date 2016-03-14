@@ -5,7 +5,7 @@ news.directive('latestNews', [function () {
     return {
         restrict: 'EA',
         link: link,
-        template: '<div id="niwaNews" class="panel panel-primary col-md-4">' +
+        template: '<div id="niwaNews" class="panel panel-primary">' +
         '<div class="panel-heading">' +
         '<h1 class="panel-title">Latest NIWA News </h1>' +
         '</div>' +
