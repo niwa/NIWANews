@@ -26,7 +26,7 @@ news.service('newsService', [
           return b.created - a.created;
         };
         var deferred = $q.defer();
-        var howManyNodesToShow = ids.length <= 1 ? ids.length : 1;
+        var howManyNodesToShow = ids.length <= 2 ? ids.length : 2;
         var counter = 1;
         var nodes = [];
         for (i = 0; i < howManyNodesToShow; i++) {
